@@ -1,25 +1,45 @@
-var url   = window.location.href;
-var parts = url.split('/');
-var year  = parts[parts.length-3];
-var day   = parseInt(parts[parts.length-1]);
+(function () {
+  "use strict";
 
-var previous = day - 1;
-var next     = day + 1;
+  var match = window.location.pathname.match(/^\/(20\d{2})\/day\/(\d{1,2})\/?$/);
+  if (!match) {
+    return;
+  }
 
-var previousDay = $('<a/>', {text: "[--]", href:"/"+year+"/day/" + previous.toString()});
-var nextDay     = $('<a/>', {text: "[++]", href:"/"+year+"/day/" + next.toString()});
+  var year = match[1];
+  var day = Number.parseInt(match[2], 10);
+  var previous = day - 1;
+  var next = day + 1;
+  var title = document.querySelector("article h2");
 
-var puzzleTitle = $('article h2').first().text();
+  if (!title) {
+    return;
+  }
 
-if (previous > 0)
-	puzzleTitle = puzzleTitle.substr(3); // remove leading '---'
-if (next <= 25)
-	puzzleTitle = puzzleTitle.substr(0, puzzleTitle.length-3); // remove trailing '+++'
+  var puzzleTitle = title.textContent;
 
-var title = $('article h2').first();
-title.html(puzzleTitle);
+  if (previous > 0) {
+    puzzleTitle = puzzleTitle.substring(3);
+  }
 
-if (previous > 0)
-	title.prepend(previousDay);
-if (next <= 25)
-	title.append(nextDay);
+  if (next <= 25) {
+    puzzleTitle = puzzleTitle.substring(0, puzzleTitle.length - 3);
+  }
+
+  title.textContent = puzzleTitle;
+
+  if (previous > 0) {
+    title.prepend(dayLink(year, previous, "[--]"));
+  }
+
+  if (next <= 25) {
+    title.append(dayLink(year, next, "[++]"));
+  }
+
+  function dayLink(year, day, text) {
+    var link = document.createElement("a");
+    link.textContent = text;
+    link.href = "/" + year + "/day/" + day.toString();
+    return link;
+  }
+})();

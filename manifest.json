@@ -1,11 +1,13 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "advent+-",
-  "version": "0.2",
+  "version": "0.3.0",
+  "description": "Adds previous and next day navigation links to Advent of Code puzzle titles.",
+  "homepage_url": "https://github.com/mdwhatcott/advent-of-code-browser-navigation",
   "content_scripts": [
     {
-      "matches": ["*://adventofcode.com/20*/day/*"],
-      "js":      ["jquery-3.2.1.min.js", "content.js"]
+      "matches": ["https://adventofcode.com/20*/day/*"],
+      "js": ["content.js"]
     }
   ]
 }
